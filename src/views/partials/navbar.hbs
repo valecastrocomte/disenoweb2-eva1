@@ -1,0 +1,18 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a href="/books"><i class="bi bi-book-half"></i> Gestor de Libros</a>
+  </div>
+  <div class="navbar-links">
+    {{#if user}}
+      <a href="/books"><i class="bi bi-collection"></i> Inventario</a>
+      <a href="/books/new"><i class="bi bi-plus-circle"></i> Agregar Libro</a>
+      <span class="navbar-user">
+        <i class="bi bi-person-circle"></i> <strong>{{user.name}}</strong>
+      </span>
+      <a href="/logout" class="btn-logout"><i class="bi bi-box-arrow-right"></i> Salir</a>
+    {{else}}
+      <a href="/login"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+      <a href="/register"><i class="bi bi-person-plus"></i> Registrarse</a>
+    {{/if}}
+  </div>
+</nav>

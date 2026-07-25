@@ -1,0 +1,125 @@
+<div class="page-header">
+  <div>
+    <h1><span class="icon">📚</span> Tu Biblioteca Personal</h1>
+    <p class="page-subtitle">Inventario de libros — administra tu colección</p>
+  </div>
+  <a href="/books/new" class="btn btn-primary">
+    <i class="bi bi-plus-lg"></i> Agregar Libro
+  </a>
+</div>
+
+{{#if books.length}}
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th><i class="bi bi-book"></i> Título</th>
+          <th><i class="bi bi-person"></i> Autor</th>
+          <th>ISBN</th>
+          <th>Género</th>
+          <th>Año</th>
+          <th>Stock</th>
+          <th>Precio</th>
+          <th style="width: 140px;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each books}}
+        <tr>
+          <td>
+            <span class="book-title">{{this.title}}</span>
+            {{#if this.description}}
+              <br><small class="text-muted">{{this.description}}</small>
+            {{/if}}
+          </td>
+          <td class="book-author">{{this.author}}</td>
+          <td><span class="book-isbn">{{this.isbn}}</span></td>
+          <td>{{#if this.genre}}{{this.genre}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
+          <td>{{#if this.year}}{{this.year}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
+          <td>
+            {{#if (eq this.quantity 0)}}
+              <span class="badge badge-out"><i class="bi bi-x-circle"></i> Agotado</span>
+            {{else if (lte this.quantity 3)}}
+              <span class="badge badge-low"><i class="bi bi-exclamation-circle"></i> Bajo ({{this.quantity}})</span>
+            {{else}}
+              <span class="badge badge-available"><i class="bi bi-check-circle"></i> Disponible ({{this.quantity}})</span>
+            {{/if}}
+          </td>
+          <td class="book-price">
+            {{#if this.price}}${{this.price}}{{else}}<span class="text-muted">—</span>{{/if}}
+          </td>
+          <td>
+            <div class="btn-group">
+              <a href="/books/{{this.id}}/edit" class="btn btn-outline btn-sm" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <button
+                class="btn btn-danger btn-sm"
+                title="Eliminar"
+                onclick="openDeleteModal({{this.id}}, '{{this.title}}')"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{else}}
+  <div class="card">
+    <div class="empty-state">
+      <span class="empty-icon">📚</span>
+      <h3>Tu estantería está vacía</h3>
+      <p>¡Agrega tu primer libro y comienza a organizar tu biblioteca personal!</p>
+      <a href="/books/new" class="btn btn-primary btn-lg">
+        <i class="bi bi-plus-lg"></i> Agregar mi primer libro
+      </a>
+    </div>
+  </div>
+{{/if}}
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3><i class="bi bi-exclamation-triangle" style="color: var(--terracotta);"></i> Eliminar Libro</h3>
+      <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>¿Estás seguro de que deseas eliminar <strong id="deleteBookTitle"></strong>?</p>
+      <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.5rem;">Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeDeleteModal()">Cancelar</button>
+      <form id="deleteForm" method="POST" style="display: inline;">
+        <button type="submit" class="btn btn-danger">
+          <i class="bi bi-trash"></i> Eliminar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openDeleteModal(id, title) {
+    document.getElementById('deleteBookTitle').textContent = title;
+    document.getElementById('deleteForm').action = '/books/' + id + '/delete';
+    document.getElementById('deleteModal').classList.add('active');
+  }
+
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('active');
+  }
+
+  // Close modal on overlay click
+  document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
+  });
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDeleteModal();
+  });
+</script>

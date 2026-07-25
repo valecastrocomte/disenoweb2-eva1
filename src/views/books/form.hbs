@@ -1,0 +1,181 @@
+<div class="page-header">
+  <div>
+    <h1>
+      <span class="icon">{{#if isEdit}}✏️{{else}}📖{{/if}}</span>
+      {{title}}
+    </h1>
+    <p class="page-subtitle">{{#if isEdit}}Actualiza la información de tu libro{{else}}Agrega un nuevo libro a tu colección{{/if}}</p>
+  </div>
+  <a href="/books" class="btn btn-outline">
+    <i class="bi bi-arrow-left"></i> Volver
+  </a>
+</div>
+
+<div class="form-card card">
+  <div class="card-header">
+    <h2>
+      <i class="bi bi-{{#if isEdit}}pencil-square{{else}}plus-circle{{/if}}"></i>
+      {{#if isEdit}}Editar Libro{{else}}Nuevo Libro{{/if}}
+    </h2>
+  </div>
+  <div class="card-body">
+
+    {{#if error}}
+      <div class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle-fill"></i> {{error}}
+      </div>
+    {{/if}}
+
+    <form action="{{#if isEdit}}/books/{{book.id}}/edit{{else}}/books{{/if}}" method="POST">
+      <div class="form-group">
+        <label for="title">
+          Título <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          placeholder="Ej: Cien años de soledad"
+          value="{{#if book}}{{book.title}}{{/if}}"
+          required
+          autofocus
+        >
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="author">
+            Autor <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="author"
+            name="author"
+            class="form-control"
+            placeholder="Ej: Gabriel García Márquez"
+            value="{{#if book}}{{book.author}}{{/if}}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="isbn">
+            ISBN <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="isbn"
+            name="isbn"
+            class="form-control"
+            placeholder="Ej: 978-0-06-088328-7"
+            value="{{#if book}}{{book.isbn}}{{/if}}"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">
+          Descripción
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control"
+          placeholder="Breve sinopsis o notas sobre el libro..."
+        >{{#if book}}{{book.description}}{{/if}}</textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="genre">
+            Género
+          </label>
+          <input
+            type="text"
+            id="genre"
+            name="genre"
+            class="form-control"
+            placeholder="Ej: Novela, Ciencia Ficción..."
+            value="{{#if book}}{{book.genre}}{{/if}}"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="year">
+            Año de publicación
+          </label>
+          <input
+            type="number"
+            id="year"
+            name="year"
+            class="form-control"
+            placeholder="Ej: 1967"
+            min="1000"
+            max="2099"
+            value="{{#if book}}{{book.year}}{{/if}}"
+          >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="quantity">
+            Cantidad en stock <span class="required">*</span>
+          </label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            class="form-control"
+            placeholder="0"
+            min="0"
+            value="{{#if book}}{{book.quantity}}{{else}}0{{/if}}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="price">
+            Precio ($)
+          </label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            class="form-control"
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+            value="{{#if book}}{{book.price}}{{/if}}"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="coverUrl">
+          URL de portada
+        </label>
+        <input
+          type="url"
+          id="coverUrl"
+          name="coverUrl"
+          class="form-control"
+          placeholder="https://ejemplo.com/portada.jpg"
+          value="{{#if book}}{{book.coverUrl}}{{/if}}"
+        >
+      </div>
+
+      <div class="d-flex align-center justify-between mt-3" style="gap: 0.75rem; flex-wrap: wrap;">
+        <a href="/books" class="btn btn-outline">
+          <i class="bi bi-x-lg"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-{{#if isEdit}}secondary{{else}}primary{{/if}} btn-lg">
+          <i class="bi bi-{{#if isEdit}}check-lg{{else}}plus-lg{{/if}}"></i>
+          {{#if isEdit}}Guardar Cambios{{else}}Crear Libro{{/if}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
