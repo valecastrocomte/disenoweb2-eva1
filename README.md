@@ -67,8 +67,8 @@ npx tsc --noEmit         # Type-check sin emitir archivos
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/gestor-inventario-libros.git
-cd gestor-inventario-libros
+git clone https://github.com/valecastrocomte/disenoweb2-eva1.git
+cd disenoweb2-eva1
 
 # 2. Instalar dependencias
 npm install
@@ -83,6 +83,9 @@ npx prisma db push
 
 # 5. Iniciar el servidor de desarrollo
 npm run dev
+
+# 6. Finalizar el servidor de desarrollo
+npx kill-port 3000
 ```
 
 El servidor arranca en **http://localhost:3000**. Al acceder se redirige automáticamente a `/login`.
