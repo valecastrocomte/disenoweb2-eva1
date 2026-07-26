@@ -26,6 +26,9 @@ export function createApp(): Application {
         eq(a: unknown, b: unknown): boolean { return a === b; },
         lte(a: unknown, b: unknown): boolean { return Number(a) <= Number(b); },
         gte(a: unknown, b: unknown): boolean { return Number(a) >= Number(b); },
+        inArray(value: unknown, arr: unknown): boolean {
+          return Array.isArray(arr) && arr.includes(value);
+        },
       },
     })
   );

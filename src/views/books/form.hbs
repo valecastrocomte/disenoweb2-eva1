@@ -92,14 +92,16 @@
           <label for="genre">
             Género
           </label>
-          <input
-            type="text"
+          <select
             id="genre"
             name="genre"
             class="form-control"
-            placeholder="Ej: Novela, Ciencia Ficción..."
-            value="{{#if book}}{{book.genre}}{{/if}}"
           >
+            <option value="">-- Seleccionar género --</option>
+            {{#each genres}}
+              <option value="{{this}}" {{#if (eq this ../book.genre)}}selected{{/if}}>{{this}}</option>
+            {{/each}}
+          </select>
         </div>
 
         <div class="form-group">
@@ -113,7 +115,7 @@
             class="form-control"
             placeholder="Ej: 1967"
             min="1000"
-            max="2099"
+            max="{{year}}"
             value="{{#if book}}{{book.year}}{{/if}}"
           >
         </div>
